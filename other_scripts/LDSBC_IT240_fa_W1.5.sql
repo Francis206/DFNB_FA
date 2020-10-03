@@ -69,4 +69,4 @@ SELECT TOP 7 p.BusinessEntityID
 --Business Entity ID Count
 --Average Yearly Pay
 USE AdventureWorks2017
- SELECT 
+ SELECT d
