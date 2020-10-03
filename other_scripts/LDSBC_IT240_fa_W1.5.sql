@@ -41,8 +41,22 @@ SELECT top 5 YEAR(oh.OrderDate) AS Order_Date
 --Middle Name
 --Last Name
 --Last Name Length
-USE AdventureWorks2017
+USE AdventureWorks2017;
 
+SELECT TOP 7 p.BusinessEntityID
+           , LEN(CONCAT(p.FirstName, ' ', p.MiddleName, ' ', p.LastName)) AS FullNameLength
+           , CONCAT(p.FirstName, ' ', p.MiddleName, ' ', p.LastName) AS Fullname
+           , p.FirstName
+           , LEN(p.Firstname) AS FNL
+           , p.MiddleName
+           , LEN(p.MiddleName) AS MNL
+           , p.LastName
+           , LEN(p.LastName) AS LNL
+  FROM Person.Person AS p
+ ORDER BY 2 desc
+        , 5 desc
+        , 7 desc
+        , 9 desc
 
 
 
@@ -55,4 +69,4 @@ USE AdventureWorks2017
 --Business Entity ID Count
 --Average Yearly Pay
 USE AdventureWorks2017
- 
+ SELECT 
