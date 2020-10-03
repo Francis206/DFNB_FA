@@ -8,14 +8,28 @@
 --Sales Order Count
 --Order Quantity
 --Sales Order Line total
-USE AdventureWorks2017
-SELECT TOP 5 year(oh.OrderDate) AS Order_Date, pp.ProductID, pp.ProductNumber AS Product_Numver , pp.Name AS Product_Name
+USE AdventureWorks2017;
 
-from production.product pp JOIN sales.SalesOrderDetail od ON pp.ProductID = od.ProductID JOIN sales.SalesOrderHeader oh ON od.SalesOrderID = oh.SalesOrderID
-
-
-
-
+SELECT top 5 YEAR(oh.OrderDate) AS Order_Date
+           , pp.ProductID
+           , pp.ProductNumber AS Product_Number
+           , pp.Name AS Product_Name
+           , pp.Color AS Color
+           , COUNT(od.SalesOrderID) AS OrderID
+           , SUM(od.LineTotal) AS SOLTotalSum
+           , SUM(od.OrderQty) AS QytSUM
+  FROM production.product AS pp
+       JOIN
+       Sales.SalesOrderDetail AS od ON pp.ProductID = od.ProductID
+       JOIN
+       Sales.SalesOrderHeader AS oh ON od.SalesOrderID = oh.SalesOrderID
+ WHERE YEAR(oh.OrderDate) = 2014
+ GROUP BY YEAR(oh.OrderDate)
+        , pp.ProductID
+        , pp.ProductNumber
+        , pp.Color
+        , pp.Name
+ ORDER BY 7 desc
 
 -- How long are the 7 longest Person names and to whom do they belong? Rank by Full Name length, Last Name Length, First Name Length
 --Include these data points in the output:
@@ -28,6 +42,8 @@ from production.product pp JOIN sales.SalesOrderDetail od ON pp.ProductID = od.P
 --Last Name
 --Last Name Length
 USE AdventureWorks2017
+
+
 
 
 -- Which Department pays its female workers on average the most per year?
