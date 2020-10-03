@@ -49,14 +49,12 @@ SELECT TOP 7 p.BusinessEntityID
            , p.FirstName
            , LEN(p.Firstname) AS FNL
            , p.MiddleName
-           , LEN(p.MiddleName) AS MNL
            , p.LastName
            , LEN(p.LastName) AS LNL
   FROM Person.Person AS p
- ORDER BY 2 desc
-        , 5 desc
-        , 7 desc
-        , 9 desc
+ ORDER BY 2 DESC
+        , 5 DESC
+        , 8 DESC;
 
 
 
@@ -68,5 +66,40 @@ SELECT TOP 7 p.BusinessEntityID
 --Total Yearly Pay
 --Business Entity ID Count
 --Average Yearly Pay
-USE AdventureWorks2017
- SELECT d
+USE AdventureWorks2017;
+
+SELECT d.DepartmentID
+     , d.Name AS DepartmentName
+     , e.Gender
+     , eph.Rate
+     , eph.PayFrequency
+     , e.SalariedFlag
+     , CASE
+           WHEN e.SalariedFlag = 1
+           THEN rate * 1000
+           WHEN e.SalariedFlag = 0
+           THEN rate * 52 * 40
+           ELSE 0
+       END AS YearlySalary
+     , COUNT(e.BusinessEntityID) AS EntityCount
+     , CASE
+           WHEN e.SalariedFlag = 1
+           THEN rate * 1000
+           WHEN e.SalariedFlag = 0
+           THEN rate * 52 * 40
+           ELSE 0
+       END * COUNT(e.BusinessEntityID) AS TotalYSalary
+  FROM HumanResources.Employee AS e
+       JOIN
+       HumanResources.EmployeeDepartmentHistory AS edh ON e.BusinessEntityID = edh.BusinessEntityID
+       JOIN
+       HumanResources.EmployeePayHistory AS eph ON edh.BusinessEntityID = eph.BusinessEntityID
+       JOIN
+       HumanResources.Department AS d ON edh.DepartmentID = d.DepartmentID
+ WHERE e.Gender = 'F'
+ GROUP BY d.DepartmentID
+        , d.Name
+        , e.Gender
+        , e.SalariedFlag
+        , eph.Rate
+        , eph.PayFrequency;
