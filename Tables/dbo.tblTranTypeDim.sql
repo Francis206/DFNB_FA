@@ -8,9 +8,8 @@ SUPPORT:
 MODIFICATION LOG:
 Ver       Date         Author       Description
 -------   ----------   ----------   -----------------------------------------------------------------------------
-1.0       12/3/2019   FAgballog      1. Built tables for project 2 of transaction Type Dimension
-
-
+1.0       12/3/2020   FAgballog      1. Built tables for project 2 of transaction Type Dimension
+2.0       12/5/2020   FAgballog       1. added  cur_cust_req_ind and variable numbers
 RUNTIME: 
 Approx. 1 min
 
