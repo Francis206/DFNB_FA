@@ -8,8 +8,8 @@ SUPPORT:
 MODIFICATION LOG:
 Ver       Date         Author       Description
 -------   ----------   ----------   -----------------------------------------------------------------------------
-1.0       12/3/2019   FAgballog      1. Built tables for project 2 for all related tables 
-
+1.0       12/3/2020   FAgballog      1. Built tables for project 2 for all related tables 
+2.0       12/5/2020   FAgballog       2. fixing the cur_cust_req_ind and adding order by
 
 RUNTIME: 
 Approx. 1 min
