@@ -8,7 +8,7 @@ MODIFICATION LOG:
 Ver       Date         Author       Description
 -------   ----------   ----------   -----------------------------------------------------------------------------
 1.0       12/12/20		Francis		creating a view for transaction Amount
-
+2.0		  12/19/20		Francis		adding branch name and locations
 
 RUNTIME: 1 min
 
@@ -35,10 +35,16 @@ GO
 
 CREATE VIEW dbo.v_TranAmtBranch
 AS
-     SELECT TOP 100 ttf.branch_id
-		  , sum (ttf.tran_amt) AS TotalAmt 
-       FROM dbo.tblTranFact AS ttf
-      GROUP BY ttf.branch_id
-      ORDER BY 2 DESC;
+    SELECT TOP 100 ttf.branch_id
+             , tbd.branch_name
+             , tbd.region_id
+             , SUM(ttf.tran_amt) AS TotalAmt
+  FROM dbo.tblTranFact AS ttf
+       INNER JOIN
+       dbo.tblBranchDim AS tbd ON ttf.branch_id = tbd.branch_id
+ GROUP BY ttf.branch_id
+        , tbd.branch_name
+        , tbd.region_id
+ ORDER BY 4 DESC;
 
 	  GO

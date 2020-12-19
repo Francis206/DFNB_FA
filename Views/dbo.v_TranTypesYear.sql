@@ -8,7 +8,7 @@ MODIFICATION LOG:
 Ver       Date         Author       Description
 -------   ----------   ----------   -----------------------------------------------------------------------------
 1.0       12/12/20		Francis		creating a view for branch trans types
-
+2.0		  12/19/20		Francis		adding names of the branch
 
 RUNTIME: 1 min
 
@@ -33,16 +33,22 @@ GO
 
 CREATE VIEW dbo.v_TranTypesYear
 AS
-      SELECT DISTINCT 
-                   ttf.branch_id
-                 , tttd.tran_type_desc
-                 , YEAR(ttf.tran_date) AS YearTrans
-				 , count(ttf.tran_date) AS TotalTrans
-              FROM dbo.tblTranFact AS ttf
-                   INNER JOIN
-                   dbo.tblTranTypeDim AS tttd ON ttf.tran_type_id = tttd.tran_type_id
-             GROUP BY ttf.branch_id
-                    , tttd.tran_type_desc
-					,YEAR(ttf.tran_date)
-order by 4 DESC
+     SELECT DISTINCT 
+            ttf.branch_id
+          , tbd.branch_name
+          , tbd.region_id
+          , tttd.tran_type_desc
+          , YEAR(ttf.tran_date) AS YearTrans
+          , COUNT(ttf.tran_date) AS TotalTrans
+       FROM dbo.tblTranFact AS ttf
+            INNER JOIN
+            dbo.tblTranTypeDim AS tttd ON ttf.tran_type_id = tttd.tran_type_id
+            INNER JOIN
+            dbo.tblBranchDim AS tbd ON ttf.branch_id = tbd.branch_id
+      GROUP BY ttf.branch_id
+			 , tbd.branch_name
+             , tbd.region_id
+             , tttd.tran_type_desc
+             , YEAR(ttf.tran_date)
+      ORDER BY 4 DESC;
 GO

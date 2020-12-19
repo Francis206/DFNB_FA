@@ -9,7 +9,7 @@ MODIFICATION LOG:
 Ver       Date         Author       Description
 -------   ----------   ----------   -----------------------------------------------------------------------------
 1.0       12/3/2020   FAgballog     create view for top 10 ten customers
-
+2.0		  12/3/2020	  FAgballog		adding info to find out customer transac in other branches
 RUNTIME: 
 Approx. 1 min
 
@@ -26,13 +26,30 @@ distributed under the same license terms.
 
 CREATE VIEW dbo.v_TopTenCusTran
 AS
-
-SELECT TOP 10 tc.first_name +' '+tc.last_name AS Customer,
-count(tt.tran_date) AS Total_Transactions
-FROM dbo.tblTranFact tt
-JOIN dbo.tblAcctDim ta ON tt.acct_id = ta.acct_id
-JOIN dbo.tblCustDim tc ON ta.pri_cust_id= tc.cust_id
-JOIN dbo.tblBranchDim tb ON ta.branch_id = tb.branch_id
-GROUP BY 
-tc.first_name, tc.last_name
-ORDER BY count(tt.tran_date) desc;
+     SELECT DISTINCT tc.first_name + ' ' + tc.last_name AS Customer
+            , tb.BranchDim
+            , COUNT(tt.tran_date) AS Total_Transactions
+  FROM dbo.tblTranFact AS tt
+       Inner JOIN
+       dbo.tblAcctDim AS ta ON tt.acct_id = ta.acct_id
+       Inner JOIN
+       dbo.tblCustDim AS tc ON ta.pri_cust_id = tc.cust_id
+       Inner JOIN
+       dbo.tblBranchDim AS tb ON ta.branch_id = tb.branch_id
+ WHERE tc.first_name + ' ' + tc.last_name IN
+                                            (
+                                             'Amelia Hughes'
+                                           , 'Amelia Lee'
+                                           , 'Aria Diaz'
+                                           , 'Bella Patterson'
+                                           , 'Grace Ramirez'
+                                           , 'Sofia Lewis'
+                                           , 'Amelia Wright'
+                                           , 'Amelia Walker'
+                                           , 'Amelia Phillips'
+                                           , 'Abigail Mitchell'
+                                            )
+ GROUP BY tc.first_name
+        , tc.last_name
+        , tb.branch_id
+      ORDER BY COUNT(tt.tran_date) DESC;
